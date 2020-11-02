@@ -7,10 +7,13 @@ namespace BlackJack
     {
         static void Main(string[] args)
         {
-            IList<Card> deck = DeckShuffle.GetDeck();
-            deck.Shuffle();
+            Console.Write("Welcome to BlackJack. Press any key to start the game.");
+            Console.WriteLine(Environment.NewLine);
+            Console.ReadKey(true);
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            Console.ReadKey();
+            Player player = new Player();
+            player.Play();
         }
     }
 }

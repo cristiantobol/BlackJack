@@ -26,17 +26,38 @@ namespace BlackJack
         public static IList<Card> GetDeck()
         {
             string path = Directory.GetParent(AppContext.BaseDirectory).FullName + "\\TechnicalTaskCards.json";
-
             Deck deck;
 
             try
             {
                 deck = JsonConvert.DeserializeObject<Deck>(File.ReadAllText(path));
+
+                foreach (var item in deck.Card)
+                {
+                    switch (item.Suit)
+                    {
+                        case "spades":
+                            item.Suit = Suits.Spades;
+                            break;
+                        case "diamonds":
+                            item.Suit = Suits.Diamonds;
+                            break;
+                        case "clubs":
+                            item.Suit = Suits.Clubs;
+                            break;
+                        case "hearts":
+                            item.Suit = Suits.Hearts;
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             catch (Exception e)
             {
                 throw e;
             }
+
             return deck.Card;
         }
     }
