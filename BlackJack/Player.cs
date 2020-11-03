@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BlackJack
@@ -7,42 +8,87 @@ namespace BlackJack
     public class Player : Participant
     {
         public readonly string name = "Player";
-        private int hand;
+        public int Hand { get; private set; }
         string playerChoice;
+        bool hasHeader;
 
-        protected int GetHand()
+        public void CalculatePlayerHand(int playerHand)
         {
-            return hand;
+            Console.WriteLine();
         }
 
-        private void SetHand(int value)
+        public void DisplayCardsOnConsole(Card card, bool hasHeader, string name, bool isDealer)
         {
-            hand = value;
+            if(!hasHeader)
+            {
+                Console.WriteLine($"=== {name.ToUpper()}'S CARDS ===");
+            }
+            if(isDealer)
+            {
+                Console.Write("|*  *|");
+            }
+            else
+            {
+                Console.Write("|" + card.Value + (card.Value > 9 ? " " : "  ") + card.Suit + "|");
+            }           
         }
 
         public void Play()
         {         
             Dealer dealer = new Dealer();          
             dealer.Hit();
-            SetHand(0);
 
-            while (hand < 21)
-            {   
-                
+            DisplayCardsOnConsole(dealer.PlayersCard, false, "Player", false);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("TOTAL: " + dealer.PlayersCardsSum);
+            Console.WriteLine("----------------------------------------------------");
+
+            DisplayCardsOnConsole(dealer.DealersHand[0], false, "Dealer", true);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("TOTAL: " + dealer.PlayersCardsSum);
+            Console.WriteLine("----------------------------------------------------");
+
+            Hand = dealer.PlayersCard.Value;
+            
+            while (Hand < 21)
+            {
                 Console.WriteLine("Hit or Hold?");
                 playerChoice = Console.ReadLine();
                 if(playerChoice == "hit")
                 {
-                    Console.WriteLine(dealer.Hit().Value + " " + dealer.Hit().Suit);                
+                    Hand += dealer.PlayersCard.Value;
+                    dealer.Hit();
+
+                    hasHeader = true;
+                    foreach (var item in dealer.PlayersHand)
+                    {
+                        DisplayCardsOnConsole(item, !hasHeader, "Player", false);
+                        hasHeader = false;
+                    }
+                    Console.WriteLine(Environment.NewLine);
+                    Console.WriteLine("TOTAL: " + dealer.PlayersCardsSum);
+                    Console.WriteLine("----------------------------------------------------");
+
+                    hasHeader = true;
+                    foreach (var item in dealer.DealersHand)
+                    {
+                        DisplayCardsOnConsole(item, !hasHeader, "Dealer", true);
+                        hasHeader = false;
+                    }
+                    Console.WriteLine(Environment.NewLine);
+                    Console.WriteLine("TOTAL: " + dealer.PlayersCardsSum);
+                    Console.WriteLine("----------------------------------------------------");
                 }
                 else if(playerChoice == "hold")
-                {                 
+                {
+                    dealer.Hold();
                     break;
                 }
-                //Console.WriteLine("|" + item.Value + (item.Value > 9 ? " " : "  ") + item.Suit + "|");
-                //SetHand(hand += int.Parse(playerChoice));
+                else
+                {
+                    Console.WriteLine("Not a valid command. Please choose hit or hold.");
+                }
             }
-            Console.WriteLine(dealer.DealersHand);
         }
 
         
