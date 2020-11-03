@@ -31,27 +31,7 @@ namespace BlackJack
             try
             {
                 deck = JsonConvert.DeserializeObject<Deck>(File.ReadAllText(path));
-
-                foreach (var item in deck.Card)
-                {
-                    switch (item.Suit)
-                    {
-                        case "spades":
-                            item.Suit = Suits.Spades;
-                            break;
-                        case "diamonds":
-                            item.Suit = Suits.Diamonds;
-                            break;
-                        case "clubs":
-                            item.Suit = Suits.Clubs;
-                            break;
-                        case "hearts":
-                            item.Suit = Suits.Hearts;
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                deck.ToConsole();
             }
             catch (Exception e)
             {
