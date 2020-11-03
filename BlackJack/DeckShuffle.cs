@@ -9,14 +9,14 @@ namespace BlackJack
 {
     public static class DeckShuffle
     {
-        static Random _random = new Random();
+        static Random rnd = new Random();
 
         public static void Shuffle<T>(this IList<T> array)
         {
             int n = array.Count;
             for (int i = 0; i < (n - 1); i++)
             {
-                int r = i + _random.Next(n - i);
+                int r = i + rnd.Next(n - i);
                 T t = array[r];
                 array[r] = array[i];
                 array[i] = t;
