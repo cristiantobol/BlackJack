@@ -12,8 +12,7 @@ namespace BlackJack
         public Dealer()
         {
             Name = "Dealer";
-            Cards = DealersCards;
-            IsDealer = false;
+            IsDealer = true;
         }
 
         public void ShowDealersHand()

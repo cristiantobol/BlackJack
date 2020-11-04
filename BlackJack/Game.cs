@@ -130,6 +130,9 @@ namespace BlackJack
             }
         }
 
+        /// <summary>
+        ///  This function is called when player's cards sum is equal to dealer's cards sum but not more than 21.
+        /// </summary>
         public void Draw()
         {
             while (true)
@@ -151,7 +154,6 @@ namespace BlackJack
                     Console.Write("Not a valid input. Please choose y or n: ");
                 }
             }
-            
         }
 
         public void GameOver()
