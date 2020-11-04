@@ -13,7 +13,18 @@ namespace BlackJack
         {
             Name = "Dealer";
             Cards = DealersCards;
-            IsDealer = true;
+            IsDealer = false;
+        }
+
+        public void ShowDealersHand()
+        {
+            int i = 0;
+
+            foreach (var card in DealersCards)
+            {
+                Console.Write("|" + (!int.TryParse(card.Face, out i) ? card.Face.Substring(0, 1).ToUpper() + " " : card.Face) + (card.Value > 9 ? " " : "  ") + card.Suit + "|");
+            }
+            Console.ReadKey();
         }
     }
 }
