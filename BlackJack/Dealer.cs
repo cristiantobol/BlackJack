@@ -5,57 +5,26 @@ using System.Text;
 
 namespace BlackJack
 {
-    public class Dealer : Participant
+    public class Dealer : Participant, IParticipant
     {
-        public readonly string Name = "Dealer";
-        public List<Card> DealersHand { get; private set; }
-        public List<Card> PlayersHand { get; set; }
-        public Card PlayersCard { get; private set; }
-        public int PlayersCardsSum { get; private set; }
-
-        public IList<Card> deck = DeckShuffle.GetDeck();
-        int[] usedCards = new int[2];
+        private List<Card> DealersCards = new List<Card>();
 
         public Dealer()
         {
-            deck.Shuffle();
-            DealersHand = new List<Card>();
-            PlayersHand = new List<Card>();
+            Name = "Dealer";
+            Cards = DealersCards;
+            IsDealer = false;
         }
 
-        public int SumDealerCards(List<Card> cards)
+        public void ShowDealersHand()
         {
-            return cards.Sum(x => Convert.ToInt32(x.Value));
-        }
+            int i = 0;
 
-        public void SumPlayerCards(List<Card> cards)
-        {
-            PlayersCardsSum = cards.Sum(x => Convert.ToInt32(x.Value));
-        }
-
-        public void RemoveUsedCards(int[] usedCards)
-        {
-            for (int i = 0; i < usedCards.Length; i++)
+            foreach (var card in DealersCards)
             {
-                deck.RemoveAt(i);
+                Console.Write("|" + (!int.TryParse(card.Face, out i) ? card.Face.Substring(0, 1).ToUpper() + " " : card.Face) + (card.Value > 9 ? " " : "  ") + card.Suit + "|");
             }
-        }
-
-        public void Hit()
-        {
-            int index = 0;
-           
-            PlayersCard = deck[index];
-            PlayersHand.Add(PlayersCard);
-            DealersHand.Add(deck[index + 1]);
-
-            SumPlayerCards(PlayersHand);
-            RemoveUsedCards(usedCards);
-        }
-
-        public void Hold()
-        {
-            SumDealerCards(DealersHand);
+            Console.ReadKey();
         }
     }
 }

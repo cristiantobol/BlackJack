@@ -11,10 +11,9 @@ namespace BlackJack
             Console.Write("Welcome to BlackJack. Press any key to start the game.");
             Console.WriteLine(Environment.NewLine);
             Console.ReadKey(true);
-            
 
-            Player player = new Player();
-            player.Play();
+            Game game = new Game();
+            game.Play();
         }
     }
 }
